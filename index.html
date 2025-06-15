@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Psimama - Site em Manutenção</title>
 
-  <!-- Favicon (Maintenance Icon) -->
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/126/126472.png" type="image/png" />
 
   <style>
@@ -30,6 +29,12 @@
     p {
       font-size: 18px;
       color: #cfd8dc;
+      margin-bottom: 20px;
+    }
+    #countdown {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffab00;
       margin-bottom: 40px;
     }
     .footer {
@@ -53,12 +58,49 @@
   <img src="https://psimama.com/Psimama.png" alt="Logotipo Psimama" onerror="this.style.display='none';" />
 
   <h1>Voltaremos em breve!</h1>
-  <p>O site <strong>Psimama.com</strong> está atualmente em manutenção.<br />
-     Obrigado pela sua paciência.</p>
+  <p>O site <strong>Psimama.com</strong> está passando por manutenção no momento.<br />
+     Agradecemos pela sua paciência.</p>
+
+  <div id="countdown">Calculando o tempo restante...</div>
 
   <div class="footer">
-    Interessado em adquirir este domínio? <a href="https://www.godaddy.com/forsale/psimama.com" target="_blank" rel="noopener noreferrer">Faça uma oferta no GoDaddy</a>
+    Interessado em adquirir este domínio? <a href="https://www.godaddy.com/forsale/psimama.com?locale=pt-BR" target="_blank" rel="noopener noreferrer">Faça uma oferta no GoDaddy</a>
   </div>
+
+  <script>
+    // إعداد العد التنازلي لمدة 30 يومًا من أول زيارة
+    const STORAGE_KEY = "psimama_start_date";
+    let startDate = localStorage.getItem(STORAGE_KEY);
+
+    if (!startDate) {
+      // حفظ تاريخ البداية الحالي إذا لم يكن محفوظًا من قبل
+      startDate = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, startDate);
+    }
+
+    const endDate = new Date(new Date(startDate).getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = endDate.getTime() - now;
+
+      if (distance <= 0) {
+        document.getElementById("countdown").innerHTML = "O site está de volta!";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `Tempo restante: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 
 </body>
 </html>
